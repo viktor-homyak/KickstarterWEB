@@ -8,8 +8,8 @@ import java.sql.SQLException;
 /**
  * Created by Viktor on 13.08.2015.
  */
-public   class PGConnectionPool {
-    private static  PGPoolingDataSource dataSource;
+public class PGConnectionPool {
+    private static PGPoolingDataSource dataSource;
     public static Connection getConnection() {
 
         Connection result = null;

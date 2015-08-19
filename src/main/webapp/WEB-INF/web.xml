@@ -5,13 +5,24 @@
     <display-name>Kick Starter</display-name>
 
     <servlet>
-        <servlet-name>MainPageServlet</servlet-name>
-        <servlet-class>ua.com.goit.homyak.servlet.MainPageServlet</servlet-class>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>ua.com.goit.homyak.servlet.MainServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>MainPageServlet</servlet-name>
+        <servlet-name>MainServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>
+            ua.com.goit.homyak.servlet.ContextListener
+        </listener-class>
+    </listener>
+
+     <!--Define an error handler for 404 pages-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error404.jsp</location>
+    </error-page>
 </web-app>

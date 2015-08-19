@@ -13,8 +13,12 @@
     <title>Catalog of categories</title>
 </head>
 <body>
-<h2><c:out value="${model.quote}"/></h2>
+<h2><c:out value="${quote}"/></h2>
 <h3>Now, you can choose one of categories, you prefer:</h3>
-
+<ol>
+<h4><c:forEach var="category" items="&{category}">
+    <li><a href="projects?categoryId=${category.id}"><c:out value="${category.name}"/></a></li>
+</c:forEach> </h4>
+</ol>
 </body>
 </html>

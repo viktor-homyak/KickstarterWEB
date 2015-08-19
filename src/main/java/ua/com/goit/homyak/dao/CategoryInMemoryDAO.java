@@ -12,19 +12,19 @@ import java.util.Map;
  */
 public class CategoryInMemoryDAO implements CategoryDAO {
 
-    private Map<Integer, ArrayList<ProjectModel>> categories;
 
     @Override
-    public  Map<Integer, ArrayList<ProjectModel>> getCategories() {
-        return categories;
-    }
-
-    @Override
-    public CategoryModel getCategoryByID(int id) {
+    public ArrayList<CategoryModel> getCategories() {
         return null;
     }
+
     @Override
-    public  void registerCategories(Map<Integer, ArrayList<ProjectModel>> categories) {
-        this.categories = categories;
+    public void registerCategories(ArrayList<CategoryModel> categories) {
+
+    }
+
+    @Override
+    public ArrayList<ProjectModel> getCategoryByID(int index) {
+        return null;
     }
 }

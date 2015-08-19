@@ -12,7 +12,6 @@ public abstract class DAOFactory {
     public static final int FILE = 2;
     public static final int INMEMORY = 3;
 
-    private static final String URL = "jdbc\\:postgresql\\://localhost\\:5432/kickstarter";
     private static final String USERNAME = "1";
     private static final String PASSWORD = "1";
 

@@ -12,10 +12,12 @@ import java.util.Map;
  */
 public interface CategoryDAO {
 
-      Map<Integer,ArrayList<ProjectModel>>  getCategories();
+    ArrayList<CategoryModel> getCategories();
 
-       void registerCategories(Map<Integer, ArrayList<ProjectModel>> categories);
+    void registerCategories(ArrayList<CategoryModel> categories);
 
-      CategoryModel getCategoryByID(int id);
+    ArrayList<ProjectModel> getCategoryByID(int index);
+
+
 
 }
