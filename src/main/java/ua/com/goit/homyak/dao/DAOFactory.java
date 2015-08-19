@@ -28,7 +28,7 @@ public abstract class DAOFactory {
             case POSTGRESQL:
                 try {
                     PGConnectionPool pgConnectionPool = new PGConnectionPool();
-                    pgConnectionPool.init(URL, USERNAME, PASSWORD);
+                    pgConnectionPool.init( USERNAME, PASSWORD);
 
                 } catch (SQLException e) {
                     throw new RuntimeException("Can't initialize database", e);
