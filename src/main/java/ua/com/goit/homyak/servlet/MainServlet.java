@@ -28,7 +28,9 @@ private DAOFactory daoFactory;
 
     @Override
     public void init() throws ServletException {
-        daoFactory = DAOFactory.getDAOFactory(DAOFactory.POSTGRESQL);
+        this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.POSTGRESQL);
+        daoFactory.getCategoryDAO().registerCategories();
+        daoFactory.getProjectDAO().registerProjects();
 
     }
 }

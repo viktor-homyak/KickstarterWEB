@@ -16,6 +16,8 @@ public interface CategoryDAO {
 
     void registerCategories(ArrayList<CategoryModel> categories);
 
+
+
     ArrayList<ProjectModel> getCategoryByID(int index);
 
 

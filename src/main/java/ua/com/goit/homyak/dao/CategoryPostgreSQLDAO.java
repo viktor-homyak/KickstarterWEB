@@ -6,9 +6,7 @@ import ua.com.goit.homyak.mvc.model.CategoryModel;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * Created by Viktor on 01.08.2015.
@@ -18,14 +16,14 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
 
     @Override
     public ArrayList<CategoryModel> getCategories() {
-        String sql = "SELECT * FROM category";
+        String sql = "SELECT * FROM categories";
 
         ArrayList<CategoryModel> categories = new ArrayList<>();
-        try (Connection connection =    PGConnectionPool.getConnection()) {
+        try (Connection connection = PGConnectionPool.getConnection()) {
             try (PreparedStatement stm = connection.prepareStatement(sql)) {
                 ResultSet rs = stm.executeQuery();
                 while (rs.next()) {
-                    categories.add(new CategoryModel(rs.getString("name"),rs.getInt("id")));
+                    categories.add(new CategoryModel(rs.getString("name"), rs.getInt("id")));
                 }
             }
         } catch (SQLException e) {
@@ -39,7 +37,7 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
     public ArrayList<ProjectModel> getCategoryByID(int categoryID) {
         String sql = "SELECT * FROM project ORDER BY parentid";
         ArrayList<ProjectModel> category = new ArrayList<>();
-        try (Connection connection =    PGConnectionPool.getConnection()) {
+        try (Connection connection = PGConnectionPool.getConnection()) {
             try (PreparedStatement stm = connection.prepareStatement(sql)) {
                 ResultSet rs = stm.executeQuery();
                 while (rs.next()) {
@@ -61,7 +59,22 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
     @Override
     public void registerCategories(ArrayList<CategoryModel> categories) {
 
+        String sql = "INSERT INTO categories (id, name)" +
+                "VALUES " +
+                "(1,'Sport')," +
+                "(2,'Table games')," +
+                "(3,'Ecology projects'";
+        try (Connection connection = PGConnectionPool.getConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate(sql);
 
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

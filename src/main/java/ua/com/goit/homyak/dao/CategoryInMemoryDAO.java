@@ -24,6 +24,11 @@ public class CategoryInMemoryDAO implements CategoryDAO {
     }
 
     @Override
+    public void registerCategories() {
+
+    }
+
+    @Override
     public ArrayList<ProjectModel> getCategoryByID(int index) {
         return null;
     }

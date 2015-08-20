@@ -9,7 +9,6 @@ public abstract class DAOFactory {
 
 
     public static final int POSTGRESQL = 1;
-    public static final int FILE = 2;
     public static final int INMEMORY = 3;
 
     private static final String USERNAME = "1";
@@ -27,14 +26,13 @@ public abstract class DAOFactory {
             case POSTGRESQL:
                 try {
                     PGConnectionPool pgConnectionPool = new PGConnectionPool();
-                    pgConnectionPool.init( USERNAME, PASSWORD);
+                    pgConnectionPool.init(USERNAME, PASSWORD);
 
                 } catch (SQLException e) {
                     throw new RuntimeException("Can't initialize database", e);
                 }
                 return new PostgreSQLDAOFactory();
-            case FILE:
-                return new FileDAOFactory();
+
             case INMEMORY:
                 return new InMemoryDAOFactory();
             default:
