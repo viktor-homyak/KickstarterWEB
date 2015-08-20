@@ -35,19 +35,16 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
 
     @Override
     public ArrayList<ProjectModel> getCategoryByID(int categoryID) {
-        String sql = "SELECT * FROM project ORDER BY parentid";
+        String sql = "SELECT * FROM project WHERE parentid = 'categoryID'";
         ArrayList<ProjectModel> category = new ArrayList<>();
         try (Connection connection = PGConnectionPool.getConnection()) {
             try (PreparedStatement stm = connection.prepareStatement(sql)) {
                 ResultSet rs = stm.executeQuery();
                 while (rs.next()) {
-
-                    if (rs.getInt("parentid") == categoryID) {
                         category.add(new ProjectModel(rs.getString("name"), rs.getString("shortdescription"),
                                 rs.getInt("sumtoraise"), rs.getInt("currentsum"), rs.getDate("enddate"),
                                 rs.getString("projecthistory"), rs.getString("faq"), rs.getString("demourl"),
                                 rs.getString("parentname"), rs.getInt("parentid")));
-                    }
                 }
             }
         } catch (SQLException e) {

@@ -18,6 +18,8 @@ public class MainServlet extends HttpServlet {
 private DAOFactory daoFactory;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
         String quote = new QuoteGenerator().getQuote();
         req.setAttribute("quote", quote);
         ArrayList<CategoryModel> category =  daoFactory.getCategoryDAO().getCategories();
