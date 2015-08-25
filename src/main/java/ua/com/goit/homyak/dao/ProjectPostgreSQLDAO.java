@@ -3,9 +3,7 @@ package ua.com.goit.homyak.dao;
 import ua.com.goit.homyak.mvc.model.CategoryModel;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -45,7 +43,21 @@ public class ProjectPostgreSQLDAO implements ProjectDAO{
     }
 
     @Override
-    public ProjectModel getProjectByID(int index, CategoryModel category) {
-        return null;
+    public ProjectModel getProjectByID(int index, CategoryModel category){
+        String sql = "SELECT * FROM project WHERE parentid = 'categoryID' AND id = 'index'";
+        ProjectModel project = (ProjectModel) new Object();
+        try (Connection connection = PGConnectionPool.getConnection()) {
+            try (PreparedStatement stm = connection.prepareStatement(sql)) {
+                ResultSet rs = stm.executeQuery();
+                     project = new ProjectModel(rs.getString("name"), rs.getString("shortdescription"),
+                            rs.getInt("sumtoraise"), rs.getInt("currentsum"), rs.getDate("enddate"),
+                            rs.getString("projecthistory"), rs.getString("faq"), rs.getString("demourl"),
+                            rs.getString("parentname"), rs.getInt("parentid"));
+                return project;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return project;
     }
 }

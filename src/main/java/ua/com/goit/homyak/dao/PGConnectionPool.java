@@ -24,7 +24,7 @@ public class PGConnectionPool {
 
     public   void init(String userName, String userPassword) throws SQLException {
         dataSource = new PGPoolingDataSource();
-        dataSource.setDataSourceName("A Data Source");
+        dataSource.setDataSourceName("datasourse");
         dataSource.setServerName("localhost");
         dataSource.setDatabaseName("kickstarter");
         dataSource.setUser(userName);

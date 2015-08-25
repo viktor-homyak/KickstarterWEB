@@ -60,7 +60,7 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
                 "VALUES " +
                 "(1,'Sport')," +
                 "(2,'Table games')," +
-                "(3,'Ecology projects'";
+                "(3,'Ecology projects')";
         try (Connection connection = PGConnectionPool.getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate(sql);

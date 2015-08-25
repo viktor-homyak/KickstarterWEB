@@ -14,13 +14,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!--<listener>-->
-        <!--<listener-class>-->
-            <!--ua.com.goit.homyak.servlet.ContextListener-->
-        <!--</listener-class>-->
-    <!--</listener>-->
 
-     <!--Define an error handler for 404 pages-->
     <error-page>
         <error-code>404</error-code>
         <location>/error404.jsp</location>
