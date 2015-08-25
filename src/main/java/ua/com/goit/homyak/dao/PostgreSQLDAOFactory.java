@@ -13,6 +13,6 @@ public class PostgreSQLDAOFactory extends DAOFactory {
 
     @Override
     public ProjectDAO getProjectDAO() {
-        return null;
+        return new ProjectPostgreSQLDAO();
     }
 }

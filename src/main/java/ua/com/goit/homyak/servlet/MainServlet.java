@@ -24,7 +24,17 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.print(req.getRequestURI());
+
+
+        if (req.getRequestURI()=="returnToMainPage"){
+            getMainJsp(req, resp);
+        }
+        if (req.getRequestURI().contains("categoryId")){
+                req.getRequestURI().substring(req.getRequestURI().lastIndexOf("=")+1)=="categoryId")
+        }
+
+
+    private void getMainJsp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String quote = new QuoteGenerator().getQuote();
         req.setAttribute("quote", quote);
         ArrayList<CategoryModel> category =  daoFactory.getCategoryDAO().getCategories();
@@ -37,7 +47,7 @@ public class MainServlet extends HttpServlet {
     public void init() throws ServletException {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.POSTGRESQL);
 
-        daoFactory.getCategoryDAO().registerCategories(category);
+        //daoFactory.getCategoryDAO().registerCategories(category);
         daoFactory.getProjectDAO().registerProjects(projects);
 
     }
