@@ -5,11 +5,11 @@
     <title>kickstarterWEB</title>
 </head>
 <body>
-<h1>Projects from "<c:out value="${category}"/>" category</h1>
+<h1>Projects from "<c:out value="${categoryName}"/>" category</h1>
 <br>
 <ol>
     <c:forEach var="project" items="${projects}">
-        <li><a href="projectId=${project.index}"><c:out value="${project.name}"/></a></li>
+        <li><a href="categoryId=${categoryId}/projectId=${project.id}"><c:out value="${project.name}"/></a>${project.shortDescription}</li>
     </c:forEach>
 </ol>
 </body>

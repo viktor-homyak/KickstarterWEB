@@ -8,6 +8,7 @@ import java.util.Date;
  */
 public class ProjectModel {
 
+    private int id;
     private String name;
     private String shortDescription;
     private int sumToRaise;
@@ -19,8 +20,9 @@ public class ProjectModel {
     private String parentName;
     private int parentId;
 
-    public ProjectModel(String name, String shortDescription, int sumToRaise, int currentSum, Date endDate,
-                   String projectHistory, String fAQ, String demoURL, String parentName, int parentId) {
+    public ProjectModel(int id, String name, String shortDescription, int sumToRaise, int currentSum, Date endDate,
+                        String projectHistory, String fAQ, String demoURL, String parentName, int parentId) {
+        this.id = id;
         this.name = name;
         this.shortDescription = shortDescription;
         this.sumToRaise = sumToRaise;
@@ -30,7 +32,7 @@ public class ProjectModel {
         this.fAQ = fAQ;
         this.demoURL = demoURL;
         this.parentName = parentName;
-        this.parentId= parentId;
+        this.parentId = parentId;
     }
 
     public String getShortDescription() {
@@ -72,6 +74,11 @@ public class ProjectModel {
     public int getParentId() {
         return parentId;
     }
+
+    public int getId() {
+        return id;
+    }
+
 
 }
 
