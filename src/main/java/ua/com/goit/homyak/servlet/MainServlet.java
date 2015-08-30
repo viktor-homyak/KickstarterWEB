@@ -26,25 +26,26 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
-        if (req.getRequestURI() == "returnToMainPage")  {
+        if (req.getRequestURI().equals("returnToMainPage"))  {
             getMainJsp(req, resp);
         }
-        if (req.getRequestURI().equals("/"))  {
+        else if (req.getRequestURI().equals("/"))  {
             getMainJsp(req, resp);
         }
-        if (req.getRequestURI().contains("categoryId")) {
+        else if (req.getRequestURI().contains("categoryId")&& !req.getRequestURI().contains("projectId"))  {
              categoryId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("=") + 1));
             getCategoryJsp(req, resp, categoryId);
         }
-        if (req.getRequestURI().contains("projectId")) {
+        else if (req.getRequestURI().contains("projectId")) {
             String[] adress = req.getRequestURI().split("/");
 
              categoryId = Integer.parseInt(adress[1].substring(adress[1].lastIndexOf("=") + 1));
             projectId = Integer.parseInt(adress[2].substring(adress[2].lastIndexOf("=") + 1));
             getProjectJsp(req, resp, categoryId, projectId);
+
         }
         else {
-            req.getRequestDispatcher("error404.jsp").forward(req, resp);
+          //  req.getRequestDispatcher("error404.jsp").forward(req, resp);
         }
     }
 
@@ -78,7 +79,7 @@ public class MainServlet extends HttpServlet {
     public void init() throws ServletException {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.POSTGRESQL);
 
-        //daoFactory.getCategoryDAO().registerCategories(category);
+        daoFactory.getCategoryDAO().registerCategories(category);
         daoFactory.getProjectDAO().registerProjects(projects);
 
     }
