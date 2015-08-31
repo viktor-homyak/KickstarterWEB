@@ -19,12 +19,12 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
         String sql = "UPDATE INTO project (id, name, shortdescription, sumtoraise," +
                 "currentsum, enddate, projecthistory,faq, demourl,parentname,parentid)" +
                 "VALUES " +
-                "(1,'Gluconazol -', 'Brend new anabolics;', 25000000, 7500000, '2019-09-25'," +
-                " 'New MOC politics dictetes new requirements for pharmasy;'," +
+                "(1,'Gluconazol', 'Brend new anabolics', 25000000, 7500000, '2019-09-25'," +
+                " 'New MOC politics dictetes new requirements for pharmasy'," +
                 "                'Is it legal?\\nno\\nWhat side effects?\\n85% brain cancer'," +
                 "                'https://www.youtube.com/watch?v=tk7RUVJmLk0','Sport', 1)," +
-                "(1,'Warriors of eternity -', 'New game, clone of ''Game of thrones'';', 10000, 1500, '2019-09-25'," +
-                " 'Game of thrones was a very good game, but it starts to bore people, so new game is on!!;'," +
+                "(1,'Warriors of eternity -', 'New game, clone of ''Game of thrones''', 10000, 1500, '2019-09-25'," +
+                " 'Game of thrones was a very good game, but it starts to bore people, so new game is on!!'," +
                 "                'Is it legal?\\nno\\nWhat side effects?\\n85% brain cancer'," +
                 "                'https://www.youtube.com/watch?v=tk7RUVJmLk0','Table games', 2)";
 
