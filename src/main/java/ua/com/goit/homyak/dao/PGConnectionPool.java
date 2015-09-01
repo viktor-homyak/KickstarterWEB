@@ -10,6 +10,10 @@ import java.sql.SQLException;
  */
 public class PGConnectionPool {
     private static PGPoolingDataSource dataSource;
+
+    public PGConnectionPool(String s) {
+    }
+
     public static Connection getConnection() {
 
         Connection result = null;
@@ -24,7 +28,6 @@ public class PGConnectionPool {
 
     public   void init(String userName, String userPassword) throws SQLException {
         dataSource = new PGPoolingDataSource();
-       // dataSource.setDataSourceName("datasourse");
         dataSource.setServerName("localhost");
         dataSource.setDatabaseName("kickstarter");
         dataSource.setUser(userName);
