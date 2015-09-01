@@ -44,9 +44,7 @@ public class MainServlet extends HttpServlet {
             getProjectJsp(req, resp, categoryId, projectId);
 
         }
-        else {
-          //  req.getRequestDispatcher("error404.jsp").forward(req, resp);
-        }
+
     }
 
     private void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId)throws ServletException, IOException {
