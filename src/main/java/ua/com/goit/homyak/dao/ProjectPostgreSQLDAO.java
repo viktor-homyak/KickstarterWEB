@@ -18,7 +18,7 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
     public void registerProjects(ArrayList<ProjectModel> projects) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2018, 05, 9);
-        String sql = "UPDATE INTO project (id, name, shortdescription, sumtoraise," +
+        String sql = "INSERT INTO project (id, name, shortdescription, sumtoraise," +
                 "currentsum, enddate, projecthistory,faq, demourl,parentname,parentid)" +
                 "VALUES " +
                 "(1,'Gluconazol', 'Brend new anabolics', 25000000, 7500000, '2019-09-25'," +

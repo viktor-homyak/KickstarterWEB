@@ -11,20 +11,12 @@ import java.util.Map;
  * Created by viktor on 02.08.2015.
  */
 public class CategoryInMemoryDAO implements CategoryDAO {
-
-
     @Override
     public ArrayList<CategoryModel> getCategories() {
         return null;
     }
-
     @Override
-    public void registerCategories(ArrayList<CategoryModel> categories) {
-
-    }
-
-
-
+    public void registerCategories(ArrayList<CategoryModel> categories) {}
     @Override
     public ArrayList<ProjectModel> getCategoryByID(int index) {
         return null;

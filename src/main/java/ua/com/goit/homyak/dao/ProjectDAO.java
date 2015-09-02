@@ -16,6 +16,4 @@ public interface ProjectDAO {
     void registerProjects(ArrayList<ProjectModel> projects);
 
     ProjectModel getProjectByID(int index, int categoryId);
-
-
 }
