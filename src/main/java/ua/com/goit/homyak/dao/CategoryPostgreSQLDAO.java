@@ -13,6 +13,13 @@ import java.util.ArrayList;
  */
 public class CategoryPostgreSQLDAO implements CategoryDAO {
 
+    private PGConnectionPool pgConnectionPool;
+
+    public CategoryPostgreSQLDAO(String s) {
+    }
+
+    public CategoryPostgreSQLDAO() {
+    }
 
     @Override
     public ArrayList<CategoryModel> getCategories() {
@@ -76,4 +83,11 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
     }
 
 
+    public void setPGConnectionPool(PGConnectionPool PGConnectionPool) {
+        pgConnectionPool = PGConnectionPool;
+    }
+
+    public PGConnectionPool getPGConnectionPool() {
+        return pgConnectionPool;
+    }
 }

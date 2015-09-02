@@ -6,10 +6,35 @@
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd
 	   					   http://www.springframework.org/schema/context
 	   					   ">
-<context:property-placeholder location="config.properties"></context:property-placeholder>
+<context:property-placeholder location="classpath:config.properties"></context:property-placeholder>
 
 
-    <bean id="PGConnectionPool" class="ua.com.goit.homyak.dao.PGConnectionPool"  init-method="init">
-        <constructor-arg type="java.lang.String" value="db.properties"/>
+    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+        <property name="driverClassName" value= "${driver}" />
+        <property name="url" value="{url}" />
+        <property name="username" value="{user}" />
+        <property name="password" value="{password}" />
+        <property name="initialSize" value="5" />
+        <property name="maxActive" value="10" />
+        <property name="maxIdle" value="5" />
+        <property name="minIdle" value="2" />
+    </bean>
+
+    <bean id="PGConnectionPool" class="ua.com.goit.homyak.dao.PGConnectionPool" init-method="init"></bean>
+
+    <bean id = "CategoryPostgreSQLDAO" class="ua.com.goit.homyak.dao.CategoryPostgreSQLDAO">
+        <property name="PGConnectionPool" ref="PGConnectionPool"></property>
+    </bean>
+
+    <bean id = "ProjectPostgreSQLDAO" class="ua.com.goit.homyak.dao.ProjectPostgreSQLDAO">
+        <property name="PGConnectionPool" ref="PGConnectionPool"></property>
+    </bean>
+
+    <bean id="QuoteGenerator" class="ua.com.goit.homyak.QuoteGenerator"> </bean>
+
+    <bean id = "MainServlet" class="ua.com.goit.homyak.servlet.MainServlet">
+        <property name="quote" ref="QuoteGenerator"></property>
+        <property name="categoryDao" ref="CategoryPostgreSQLDAO"></property>
+        <property name="projectDao" ref="ProjectPostgreSQLDAO"></property>
     </bean>
 </beans>

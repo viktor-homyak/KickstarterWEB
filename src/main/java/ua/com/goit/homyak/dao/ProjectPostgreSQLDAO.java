@@ -12,6 +12,8 @@ import java.util.Calendar;
  */
 public class ProjectPostgreSQLDAO implements ProjectDAO {
 
+    private PGConnectionPool pgConnectionPool;
+
     @Override
     public void registerProjects(ArrayList<ProjectModel> projects) {
         Calendar calendar = Calendar.getInstance();
@@ -60,5 +62,13 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void setPGConnectionPool(PGConnectionPool PGConnectionPool) {
+        pgConnectionPool = PGConnectionPool;
+    }
+
+    public PGConnectionPool getPGConnectionPool() {
+        return pgConnectionPool;
     }
 }
