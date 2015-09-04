@@ -1,9 +1,7 @@
 package ua.com.goit.homyak.servlet;
 
 import ua.com.goit.homyak.QuoteGenerator;
-import ua.com.goit.homyak.dao.CategoryPostgreSQLDAO;
-import ua.com.goit.homyak.dao.DAOFactory;
-import ua.com.goit.homyak.dao.ProjectPostgreSQLDAO;
+import ua.com.goit.homyak.dao.*;
 import ua.com.goit.homyak.mvc.model.CategoryModel;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
 
@@ -23,15 +21,17 @@ public class MainServlet extends HttpServlet {
     private ArrayList<CategoryModel> category;
     private ArrayList<ProjectModel> projects;
     private QuoteGenerator quote;
+    private CategoryDAO categoryDAO;
+    private ProjectDAO projectDAO;
     private CategoryPostgreSQLDAO categoryDao;
     private ProjectPostgreSQLDAO projectDao;
 
     @Override
     public void init() throws ServletException {
-        this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.POSTGRESQL);
+       // this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.POSTGRESQL);
 
-        daoFactory.getCategoryDAO().registerCategories(category);
-        daoFactory.getProjectDAO().registerProjects(projects);
+        categoryDao.registerCategories(category);
+        projectDao.registerProjects(projects);
 
     }
 
@@ -61,8 +61,8 @@ public class MainServlet extends HttpServlet {
 
     }
 
-    private void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId)throws ServletException, IOException {
-        ProjectModel project = daoFactory.getProjectDAO().getProjectByID(projectId, daoFactory.getCategoryDAO().getCategoryByID(categoryId).get(0).getParentId());
+    public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId)throws ServletException, IOException {
+        ProjectModel project = projectDAO.getProjectByID(projectId, daoFactory.getCategoryDAO().getCategoryByID(categoryId).get(0).getParentId());
         req.setAttribute("categoryId", project.getParentId());
         req.setAttribute("categoryName", project.getParentName());
         req.setAttribute("project", project);
@@ -72,7 +72,7 @@ public class MainServlet extends HttpServlet {
 
 
     private void getCategoryJsp(HttpServletRequest req, HttpServletResponse resp, int categoryID) throws ServletException, IOException {
-        ArrayList<ProjectModel> projectsOfCategory = daoFactory.getCategoryDAO().getCategoryByID(categoryID);
+        ArrayList<ProjectModel> projectsOfCategory = categoryDAO.getCategoryByID(categoryID);
         req.setAttribute("categoryId", projectsOfCategory.get(0).getParentId());
         req.setAttribute("categoryName", projectsOfCategory.get(0).getParentName());
         req.setAttribute("projects", projectsOfCategory);
@@ -94,6 +94,7 @@ public class MainServlet extends HttpServlet {
     public QuoteGenerator getQuote() {
         return quote;
     }
+
 
     public void setCategoryDao(CategoryPostgreSQLDAO categoryDao) {
         this.categoryDao = categoryDao;

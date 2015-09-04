@@ -13,14 +13,16 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 /**
  * Created by Viktor on 13.08.2015.
  */
+
 public class PGConnectionPool {
 
-    private static  DataSource dataSource;
+    private static   DataSource dataSource;
+//    private DataSource dataSource;
 
 
-    public PGConnectionPool() {
-
-    }
+//    public PGConnectionPool() {
+//
+//    }
 
     public static Connection getConnection() {
 
@@ -60,5 +62,13 @@ public class PGConnectionPool {
          prop.load(stream);
 
         return prop;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
     }
 }
