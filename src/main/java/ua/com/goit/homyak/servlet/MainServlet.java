@@ -17,21 +17,19 @@ import java.util.ArrayList;
  */
 public class MainServlet extends HttpServlet {
 
-    private DAOFactory daoFactory;
-    private ArrayList<CategoryModel> category;
-    private ArrayList<ProjectModel> projects;
+   // private DAOFactory daoFactory;
+//    private ArrayList<CategoryModel> category;
+//    private ArrayList<ProjectModel> projects;
     private QuoteGenerator quote;
-    private CategoryDAO categoryDAO;
-    private ProjectDAO projectDAO;
-    private CategoryPostgreSQLDAO categoryDao;
-    private ProjectPostgreSQLDAO projectDao;
+    private CategoryPostgreSQLDAO categoryDAO;
+    private ProjectPostgreSQLDAO projectDAO;
 
     @Override
     public void init() throws ServletException {
        // this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.POSTGRESQL);
-
-        categoryDao.registerCategories(category);
-        projectDao.registerProjects(projects);
+//
+//        categoryDao.registerCategories(category);
+//        projectDao.registerProjects(projects);
 
     }
 
@@ -62,7 +60,7 @@ public class MainServlet extends HttpServlet {
     }
 
     public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId)throws ServletException, IOException {
-        ProjectModel project = projectDAO.getProjectByID(projectId, daoFactory.getCategoryDAO().getCategoryByID(categoryId).get(0).getParentId());
+        ProjectModel project = projectDAO.getProjectByID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
         req.setAttribute("categoryId", project.getParentId());
         req.setAttribute("categoryName", project.getParentName());
         req.setAttribute("project", project);
@@ -82,7 +80,7 @@ public class MainServlet extends HttpServlet {
     private void getMainJsp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String quote = new QuoteGenerator().getQuote();
         req.setAttribute("quote", quote);
-        req.setAttribute("category", daoFactory.getCategoryDAO().getCategories());
+        req.setAttribute("category", getCategoryDao().getCategories());
         req.getRequestDispatcher("main.jsp").forward(req, resp);
     }
 
@@ -97,18 +95,18 @@ public class MainServlet extends HttpServlet {
 
 
     public void setCategoryDao(CategoryPostgreSQLDAO categoryDao) {
-        this.categoryDao = categoryDao;
+        this.categoryDAO = categoryDao;
     }
 
     public CategoryPostgreSQLDAO getCategoryDao() {
-        return categoryDao;
+        return categoryDAO;
     }
 
     public void setProjectDao(ProjectPostgreSQLDAO projectDao) {
-        this.projectDao = projectDao;
+        this.projectDAO = projectDao;
     }
 
     public ProjectPostgreSQLDAO getProjectDao() {
-        return projectDao;
+        return projectDAO;
     }
 }
