@@ -9,11 +9,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.5.RELEASE</version>
-    </parent>
+    <!--<parent>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-parent</artifactId>-->
+        <!--<version>1.2.5.RELEASE</version>-->
+    <!--</parent>-->
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -51,10 +51,10 @@
             <version>9.4-1200-jdbc41</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-web</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -67,6 +67,19 @@
             <artifactId>tomcat-jdbc</artifactId>
             <version>7.0.35</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>4.2.0.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
 
@@ -85,18 +98,18 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>spring-releases</id>-->
+            <!--<url>https://repo.spring.io/libs-release</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+    <!--<pluginRepositories>-->
+        <!--<pluginRepository>-->
+            <!--<id>spring-releases</id>-->
+            <!--<url>https://repo.spring.io/libs-release</url>-->
+        <!--</pluginRepository>-->
+    <!--</pluginRepositories>-->
 </project>
 
 

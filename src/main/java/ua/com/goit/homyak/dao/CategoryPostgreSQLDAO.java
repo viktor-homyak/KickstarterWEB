@@ -15,7 +15,8 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
 
     private PGConnectionPool pgConnectionPool;
 
-    public CategoryPostgreSQLDAO(String s) {
+    public CategoryPostgreSQLDAO(PGConnectionPool pgConnectionPool) {
+        this.pgConnectionPool = pgConnectionPool;
     }
 
     public CategoryPostgreSQLDAO() {
