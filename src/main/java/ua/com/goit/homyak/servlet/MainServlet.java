@@ -1,10 +1,14 @@
 package ua.com.goit.homyak.servlet;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import ua.com.goit.homyak.QuoteGenerator;
 import ua.com.goit.homyak.dao.*;
 import ua.com.goit.homyak.mvc.model.CategoryModel;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,19 +21,25 @@ import java.util.ArrayList;
  */
 public class MainServlet extends HttpServlet {
 
-   // private DAOFactory daoFactory;
-//    private ArrayList<CategoryModel> category;
-//    private ArrayList<ProjectModel> projects;
     private QuoteGenerator quote;
-    private CategoryPostgreSQLDAO categoryDAO;
-    private ProjectPostgreSQLDAO projectDAO;
+    private CategoryDAO categoryDAO;
+    private ProjectDAO projectDAO;
+
 
     @Override
-    public void init() throws ServletException {
-       // this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.POSTGRESQL);
-//
-//        categoryDao.registerCategories(category);
-//        projectDao.registerProjects(projects);
+    public void init(ServletConfig config) throws ServletException {
+
+        super.init(config);
+
+        WebApplicationContext springContext = WebApplicationContextUtils
+                .getWebApplicationContext(getServletContext());
+        categoryDAO = (CategoryDAO) springContext.getBean("categoryDAO", categoryDAO);
+        projectDAO = (ProjectDAO) springContext.getBean("projestDAO", projectDAO);
+        quote = (QuoteGenerator)springContext.getBean("quoteGenerator",quote);
+
+
+//        categoryDAO.registerCategories();
+//        projectDAO.registerProjects();
 
     }
 
@@ -80,7 +90,7 @@ public class MainServlet extends HttpServlet {
     private void getMainJsp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String quote = new QuoteGenerator().getQuote();
         req.setAttribute("quote", quote);
-        req.setAttribute("category", getCategoryDao().getCategories());
+        req.setAttribute("category", categoryDAO.getCategories());
         req.getRequestDispatcher("main.jsp").forward(req, resp);
     }
 
@@ -94,19 +104,4 @@ public class MainServlet extends HttpServlet {
     }
 
 
-    public void setCategoryDao(CategoryPostgreSQLDAO categoryDao) {
-        this.categoryDAO = categoryDao;
-    }
-
-    public CategoryPostgreSQLDAO getCategoryDao() {
-        return categoryDAO;
-    }
-
-    public void setProjectDao(ProjectPostgreSQLDAO projectDao) {
-        this.projectDAO = projectDao;
-    }
-
-    public ProjectPostgreSQLDAO getProjectDao() {
-        return projectDAO;
-    }
 }

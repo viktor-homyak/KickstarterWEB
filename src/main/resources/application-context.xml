@@ -31,19 +31,12 @@
         <property name="PGConnectionPool" ref="pGConnectionPool"/>
     </bean>
 
-
-    <!--<bean id = "categoryPostgreSQLDAO" class="ua.com.goit.homyak.dao.CategoryPostgreSQLDAO">-->
-        <!--<property name="PGConnectionPool" ref="pGConnectionPool"/>-->
-    <!--</bean>-->
-
-    <!--<bean id = "projectPostgreSQLDAO" class="ua.com.goit.homyak.dao.ProjectPostgreSQLDAO">-->
-        <!--<property name="PGConnectionPool" ref="pGConnectionPool"/>-->
-    <!--</bean>-->
-
+    <bean id="categoryDAO" class="ua.com.goit.homyak.dao.CategoryDAO" abstract="true"/>
+    <bean id="projectDAO" class="ua.com.goit.homyak.dao.ProjectDAO" abstract="true"/>
 
     <bean id = "mainServlet" class="ua.com.goit.homyak.servlet.MainServlet" >
         <property name="quote" ref="quoteGenerator"/>
-        <property name="categoryDao" ref="categoryDAOPS"/>
+        <property name="categoryDAO" ref="categoryDAO"/>
         <property name="projectDao" ref="projectDAOPS"/>
     </bean>
 
