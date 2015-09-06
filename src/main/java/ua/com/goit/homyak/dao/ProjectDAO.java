@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public interface ProjectDAO {
 
-    void registerProjects(ArrayList<ProjectModel> projects);
+    void registerProjects();
 
     ProjectModel getProjectByID(int index, int categoryId);
 }

@@ -1,11 +1,9 @@
 package ua.com.goit.homyak.servlet;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import ua.com.goit.homyak.QuoteGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import ua.com.goit.homyak.dao.QuoteGenerator;
 import ua.com.goit.homyak.dao.*;
-import ua.com.goit.homyak.mvc.model.CategoryModel;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
 
 import javax.servlet.ServletConfig;
@@ -20,48 +18,38 @@ import java.util.ArrayList;
  * Created by Viktor on 18.08.2015.
  */
 public class MainServlet extends HttpServlet {
-
+    @Autowired
     private QuoteGenerator quote;
-    private CategoryDAO categoryDAO;
-    private ProjectDAO projectDAO;
+    @Autowired
+    private CategoryPostgreSQLDAO categoryDAO;
+    @Autowired
+    private ProjectPostgreSQLDAO projectDAO;
 
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-
         super.init(config);
-
-        WebApplicationContext springContext = WebApplicationContextUtils
-                .getWebApplicationContext(getServletContext());
-        categoryDAO = (CategoryDAO) springContext.getBean("categoryDAO", categoryDAO);
-        projectDAO = (ProjectDAO) springContext.getBean("projestDAO", projectDAO);
-        quote = (QuoteGenerator)springContext.getBean("quoteGenerator",quote);
-
-
-//        categoryDAO.registerCategories();
-//        projectDAO.registerProjects();
-
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+                config.getServletContext());
+        categoryDAO.registerCategories();
+        projectDAO.registerProjects();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
         int categoryId;
-        if (req.getRequestURI().equals("returnToMainPage"))  {
+        if (req.getRequestURI().equals("returnToMainPage")) {
             getMainJsp(req, resp);
-        }
-        else if (req.getRequestURI().equals("/"))  {
+        } else if (req.getRequestURI().equals("/")) {
             getMainJsp(req, resp);
-        }
-        else if (req.getRequestURI().contains("categoryId")&& !req.getRequestURI().contains("projectId"))  {
-             categoryId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("=") + 1));
+        } else if (req.getRequestURI().contains("categoryId") && !req.getRequestURI().contains("projectId")) {
+            categoryId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("=") + 1));
             getCategoryJsp(req, resp, categoryId);
-        }
-        else if (req.getRequestURI().contains("projectId")) {
+        } else if (req.getRequestURI().contains("projectId")) {
             String[] adress = req.getRequestURI().split("/");
 
-             categoryId = Integer.parseInt(adress[1].substring(adress[1].lastIndexOf("=") + 1));
+            categoryId = Integer.parseInt(adress[1].substring(adress[1].lastIndexOf("=") + 1));
             int projectId = Integer.parseInt(adress[2].substring(adress[2].lastIndexOf("=") + 1));
             getProjectJsp(req, resp, categoryId, projectId);
 
@@ -69,7 +57,7 @@ public class MainServlet extends HttpServlet {
 
     }
 
-    public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId)throws ServletException, IOException {
+    public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId) throws ServletException, IOException {
         ProjectModel project = projectDAO.getProjectByID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
         req.setAttribute("categoryId", project.getParentId());
         req.setAttribute("categoryName", project.getParentName());
@@ -87,6 +75,7 @@ public class MainServlet extends HttpServlet {
         req.getRequestDispatcher("category.jsp").forward(req, resp);
 
     }
+
     private void getMainJsp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String quote = new QuoteGenerator().getQuote();
         req.setAttribute("quote", quote);
@@ -103,5 +92,20 @@ public class MainServlet extends HttpServlet {
         return quote;
     }
 
+    public void setCategoryDAO(CategoryPostgreSQLDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
+    }
+
+    public CategoryPostgreSQLDAO getCategoryDAO() {
+        return categoryDAO;
+    }
+
+    public ProjectPostgreSQLDAO getProjectDao() {
+        return projectDAO;
+    }
+
+    public void setProjectDAO(ProjectPostgreSQLDAO projectDAO) {
+        this.projectDAO = projectDAO;
+    }
 
 }

@@ -1,53 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context = "http://www.springframework.org/schema/context"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	   					   http://www.springframework.org/schema/beans/spring-beans.xsd
-	   					   http://www.springframework.org/schema/context
-	   					   ">
-<!--<context:property-placeholder location="classpath:config.properties"></context:property-placeholder>-->
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:property-placeholder location="classpath:config.properties"/>
 
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
-        <property name="driverClassName" value= "org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql:kickstarter" />
-        <property name="username" value="1" />
-        <property name="password" value="1" />
-        <property name="initialSize" value="5" />
-        <property name="maxActive" value="10" />
-        <property name="maxIdle" value="5" />
-        <property name="minIdle" value="2" />
+        <property name="driverClassName" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <property name="initialSize" value="5"/>
+        <property name="maxActive" value="10"/>
+        <property name="maxIdle" value="5"/>
+        <property name="minIdle" value="2"/>
     </bean>
 
     <bean id="pGConnectionPool" class="ua.com.goit.homyak.dao.PGConnectionPool" >
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="quoteGenerator" class="ua.com.goit.homyak.QuoteGenerator"/>
+    <bean id="quoteGenerator" class="ua.com.goit.homyak.dao.QuoteGenerator"/>
 
-    <bean id="categoryDAO" class="ua.com.goit.homyak.dao.CategoryPostgreSQLDAO">
-        <property name="PGConnectionPool" ref="pGConnectionPool"/>
-
-    </bean>
-    <bean id="projectDAO" class="ua.com.goit.homyak.dao.ProjectPostgreSQLDAO">
+    <bean id="categoryDAOPS" class="ua.com.goit.homyak.dao.CategoryPostgreSQLDAO">
         <property name="PGConnectionPool" ref="pGConnectionPool"/>
     </bean>
 
+    <bean id="projectDAOPS" class="ua.com.goit.homyak.dao.ProjectPostgreSQLDAO">
+        <property name="PGConnectionPool" ref="pGConnectionPool"/>
+    </bean>
 
-    <!--<bean id = "categoryPostgreSQLDAO" class="ua.com.goit.homyak.dao.CategoryPostgreSQLDAO">-->
-        <!--<property name="PGConnectionPool" ref="pGConnectionPool"/>-->
-    <!--</bean>-->
-
-    <!--<bean id = "projectPostgreSQLDAO" class="ua.com.goit.homyak.dao.ProjectPostgreSQLDAO">-->
-        <!--<property name="PGConnectionPool" ref="pGConnectionPool"/>-->
-    <!--</bean>-->
-
-
-    <bean id = "mainServlet" class="ua.com.goit.homyak.servlet.MainServlet" >
+    <bean id="mainServlet" class="ua.com.goit.homyak.servlet.MainServlet">
         <property name="quote" ref="quoteGenerator"/>
-        <property name="categoryDao" ref="categoryDAO"/>
-        <property name="projectDao" ref="projectDAO"/>
+        <property name="categoryDAO" ref="categoryDAOPS"/>
+        <property name="projectDAO" ref="projectDAOPS"/>
     </bean>
 
 

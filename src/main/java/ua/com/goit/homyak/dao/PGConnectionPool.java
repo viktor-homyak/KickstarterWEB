@@ -16,13 +16,7 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 
 public class PGConnectionPool {
 
-    private static   DataSource dataSource;
-//    private DataSource dataSource;
-
-
-//    public PGConnectionPool() {
-//
-//    }
+    private static DataSource dataSource;
 
     public static Connection getConnection() {
 
@@ -40,7 +34,7 @@ public class PGConnectionPool {
 
 
         Properties dbProps = getDBProperties();
-         dataSource = new DataSource();
+        dataSource = new DataSource();
         dataSource.setDriverClassName(dbProps.getProperty("driver"));
         dataSource.setUrl(dbProps.getProperty("url"));
         dataSource.setUsername(dbProps.getProperty("user"));
@@ -48,9 +42,21 @@ public class PGConnectionPool {
         dataSource.setDefaultAutoCommit(false);
 
         try {
-            dataSource.getConnection();
+            checkConnection();
         } catch (SQLException e) {
             throw new RuntimeException("Problem with DB connectivity!", e);
+        }
+    }
+
+    private void checkConnection() throws SQLException {
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
         }
     }
 
@@ -59,7 +65,7 @@ public class PGConnectionPool {
         Properties prop = new Properties();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream stream = loader.getResourceAsStream("config.properties");
-         prop.load(stream);
+        prop.load(stream);
 
         return prop;
     }

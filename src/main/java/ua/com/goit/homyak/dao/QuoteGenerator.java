@@ -1,4 +1,4 @@
-package ua.com.goit.homyak;
+package ua.com.goit.homyak.dao;
 
 import java.util.Random;
 

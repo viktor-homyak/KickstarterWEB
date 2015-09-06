@@ -62,7 +62,7 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
     }
 
     @Override
-    public void registerCategories(ArrayList<CategoryModel> categories) {
+    public void registerCategories() {
 
         String sql = "INSERT INTO categories (id, name)" +
                 "VALUES " +
@@ -72,7 +72,7 @@ public class CategoryPostgreSQLDAO implements CategoryDAO {
         try (Connection connection = PGConnectionPool.getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate(sql);
-
+                     connection.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
 
