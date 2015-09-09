@@ -52,9 +52,7 @@ public class MainServlet extends HttpServlet {
             categoryId = Integer.parseInt(adress[1].substring(adress[1].lastIndexOf("=") + 1));
             int projectId = Integer.parseInt(adress[2].substring(adress[2].lastIndexOf("=") + 1));
             getProjectJsp(req, resp, categoryId, projectId);
-
         }
-
     }
 
     public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId) throws ServletException, IOException {
@@ -85,7 +83,15 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+
+            if (req.getRequestURI().contains("addmoney")){
+               projectDAO.updateProjectCurrentSum(Integer.parseInt(req.getParameter("categoryId")),
+                       Integer.parseInt(req.getParameter("projectId")),
+                       Integer.parseInt(req.getParameter("currentSum"))+Integer.parseInt(req.getParameter("addedAmount")));
+
+                resp.sendRedirect("categoryId="+req.getParameter("categoryId")+"/projectId="+req.getParameter("projectId")+"");
+
+            }
     }
 
     public void setQuote(QuoteGenerator quote) {

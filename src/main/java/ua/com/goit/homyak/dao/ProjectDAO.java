@@ -16,4 +16,6 @@ public interface ProjectDAO {
     void registerProjects();
 
     ProjectModel getProjectByID(int index, int categoryId);
+
+    void updateProjectCurrentSum(int categoryId, int projectId, int ammount);
 }

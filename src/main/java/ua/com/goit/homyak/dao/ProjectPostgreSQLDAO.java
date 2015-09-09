@@ -98,6 +98,18 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
         return null;
     }
 
+    @Override
+    public void updateProjectCurrentSum(int categoryId, int projectId, int ammount) {
+        String sql = "UPDATE project SET currentsum ="+ ammount+" WHERE parentid =" + categoryId + " AND id =" + projectId + "";
+        try (Connection connection = PGConnectionPool.getConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate(sql);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setPGConnectionPool(PGConnectionPool PGConnectionPool) {
         pgConnectionPool = PGConnectionPool;
     }
