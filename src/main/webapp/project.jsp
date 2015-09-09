@@ -7,14 +7,25 @@
 <body>
 <h1>Project from "<c:out value="${categoryName}"/>" category</h1>
 <br>
-<p><h2><c:out value="${project.name} - ${project.shortDescription}"/></h2></p>
+<p><h2><c:out value="${project.name} ${project.shortDescription}"/></h2></p>
 <br>
-<p><h4><c:out value="Sum to raise=${project.sumToRaise}"/></h4></p>
-<p><h4><c:out value="Current sum=${project.currentSum}"/></h4></p>
-<p><h4><c:out value="End date: ${project.endDate}"/></h4></p>
-<p><h4><c:out value="Project history: ${project.projectHistory}"/></h4></p>
-<p><h4><c:out value="fAQ: ${project.fAQ}"/></h4></p>
-<p><h4><c:out value="Video: ${project.demoURL}"/></h4></p>
+<form>
+<p><b>Sum to raise</b><c:out value=": ${project.sumToRaise}"/></p>
+<p><b>Current sum</b><c:out value=": ${project.currentSum}"/></p>
+<p><b>End date:</b><c:out value=" ${project.endDate}"/></p>
+<p><b>Project history:</b><c:out value=" ${project.projectHistory}"/></p>
+<p><b>FAQ:</b><c:out value=" ${project.fAQ}"/></h4></p>
+<p><h4> <c:out value="Video: "/><a href="${project.demoURL}">${project.demoURL}</a> </h4></p>
+</form>
+
+<form action="addmoney" method="POST">
+    <b>Amount to add:</b> <input type="number" name="addedamount"><br>
+    <br>
+    <b>Sponsor name:</b> <input type="text" width="12" name="sponsorname"><br>
+    <b>Card number:</b> <input type="number" width="12" name="cardnumber"><br>
+
+    <input type="submit" value="Submit">
+</form>
 
 </body>
 </html>

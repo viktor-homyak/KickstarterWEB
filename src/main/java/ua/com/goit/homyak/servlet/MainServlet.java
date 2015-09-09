@@ -83,6 +83,10 @@ public class MainServlet extends HttpServlet {
         req.getRequestDispatcher("main.jsp").forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
 
     public void setQuote(QuoteGenerator quote) {
         this.quote = quote;
