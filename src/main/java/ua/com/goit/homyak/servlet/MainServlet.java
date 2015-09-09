@@ -89,7 +89,7 @@ public class MainServlet extends HttpServlet {
                        Integer.parseInt(req.getParameter("projectId")),
                        Integer.parseInt(req.getParameter("currentSum"))+Integer.parseInt(req.getParameter("addedAmount")));
 
-                resp.sendRedirect("categoryId="+req.getParameter("categoryId")+"/projectId="+req.getParameter("projectId")+"");
+                resp.sendRedirect("/categoryId="+req.getParameter("categoryId")+"/projectId="+req.getParameter("projectId")+"");
 
             }
     }
