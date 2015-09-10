@@ -114,7 +114,7 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
     @Override
     //TODO get questions using left join to questions table
     public QuestionsModel getQuestionByProjectID(int index, int categoryId) {
-        String sql = "SELECT * FROM project WHERE parentid = " + categoryId + " AND id =" + index + "";
+        String sql = "SELECT * FROM questions WHERE projectname = ( SELECT name FROM project WHERE parentid = " + categoryId + " AND id =" + index + ")";
         try (Connection connection = PGConnectionPool.getConnection()) {
             try (PreparedStatement stm = connection.prepareStatement(sql)) {
                 ResultSet rs = stm.executeQuery();

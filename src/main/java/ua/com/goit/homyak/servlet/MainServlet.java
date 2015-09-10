@@ -62,7 +62,7 @@ public class MainServlet extends HttpServlet {
         req.setAttribute("categoryId", project.getParentId());
         req.setAttribute("categoryName", project.getParentName());
         req.setAttribute("project", project);
-        req.setAttribute("quetions",questions);
+        req.setAttribute("questions",questions);
         req.getRequestDispatcher("/project.jsp").forward(req, resp);
 
     }
