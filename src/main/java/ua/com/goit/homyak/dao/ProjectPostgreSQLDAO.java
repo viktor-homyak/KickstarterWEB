@@ -2,6 +2,7 @@ package ua.com.goit.homyak.dao;
 
 import ua.com.goit.homyak.mvc.model.CategoryModel;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
+import ua.com.goit.homyak.mvc.model.QuestionsModel;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -109,6 +110,36 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    //TODO get questions using left join to questions table
+    public QuestionsModel getQuestionByProjectID(int index, int categoryId) {
+        String sql = "SELECT * FROM project WHERE parentid = " + categoryId + " AND id =" + index + "";
+        try (Connection connection = PGConnectionPool.getConnection()) {
+            try (PreparedStatement stm = connection.prepareStatement(sql)) {
+                ResultSet rs = stm.executeQuery();
+                rs.next();
+                return  new QuestionsModel(rs.getInt("id"), rs.getString("name"), rs.getString("projectname"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void updateQuestions(String question, String projectname) {
+        String sql = "INSERT INTO questions (name, projectname) VALUES ('"+question+"','"+projectname+"')";
+
+        try (Connection connection = PGConnectionPool.getConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate(sql);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void setPGConnectionPool(PGConnectionPool PGConnectionPool) {
         pgConnectionPool = PGConnectionPool;

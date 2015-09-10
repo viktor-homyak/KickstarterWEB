@@ -5,6 +5,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ua.com.goit.homyak.dao.QuoteGenerator;
 import ua.com.goit.homyak.dao.*;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
+import ua.com.goit.homyak.mvc.model.QuestionsModel;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -57,9 +58,11 @@ public class MainServlet extends HttpServlet {
 
     public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId) throws ServletException, IOException {
         ProjectModel project = projectDAO.getProjectByID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
+        QuestionsModel questions = projectDAO.getQuestionByProjectID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
         req.setAttribute("categoryId", project.getParentId());
         req.setAttribute("categoryName", project.getParentName());
         req.setAttribute("project", project);
+        req.setAttribute("quetions",questions);
         req.getRequestDispatcher("/project.jsp").forward(req, resp);
 
     }
@@ -90,6 +93,11 @@ public class MainServlet extends HttpServlet {
                        Integer.parseInt(req.getParameter("currentSum"))+Integer.parseInt(req.getParameter("addedAmount")));
 
                 resp.sendRedirect("/categoryId="+req.getParameter("categoryId")+"/projectId="+req.getParameter("projectId")+"");
+
+            } else if (req.getRequestURI().contains("faq")) {
+                  projectDAO.updateQuestions(req.getParameter("addedQuestion"),req.getParameter("projectname"));
+
+                resp.sendRedirect("/categoryId=" + req.getParameter("categoryId") + "/projectId=" + req.getParameter("projectId") + "");
 
             }
     }

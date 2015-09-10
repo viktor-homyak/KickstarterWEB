@@ -22,13 +22,14 @@
 
     <p><b>Project history:</b><c:out value=" ${project.projectHistory}"/></p>
 
-    <p><b>FAQ:</b><c:out value=" ${project.fAQ}"/></p>
+    <%--<p><b>FAQ:</b><c:out value=" ${project.fAQ}"/></p>--%>
 
     <p><h4><c:out value="Video: "/><a href="${project.demoURL}">${project.demoURL}</a></h4></p>
 </form>
 
-<form action="addmoney" method="POST">
 
+<form action="addmoney" method="POST">
+    <br>
     <p><b>You can help in raising money</b></p><br>
     <b>Amount to add:</b> <input type="number" name="addedAmount" required data-fv-notempty-message ="fill amount"><br>
     <br>
@@ -40,6 +41,27 @@
     <input type="hidden" value="${project.currentSum}" name="currentSum">
     <input type="submit" value="Submit">
 </form>
+
+
+<form action="faq" method="POST">
+    <br>
+    <p><b>Here you can ask your question</b></p><br>
+    <b>Your question:</b> <input type="text" name="addedQuestion" required data-fv-notempty-message ="fill amount"><br>
+    <br>
+    <input type="submit" value="Submit">
+    <input type="hidden"  value="${project.name}" name="projectname">
+    <input type="hidden"  value="${project.id}" name="projectId">
+    <input type="hidden" value="${project.parentId}" name="categoryId">
+
+    <br>
+</form>
+    <p><b>FAQ</b></p><br>
+    <ol>
+        <c:forEach var="question" items="${questions}">
+            <li><c:out value="${question.id}${question.name}"/></li>
+        </c:forEach>
+    </ol>
+
 
 </body>
 </html>
