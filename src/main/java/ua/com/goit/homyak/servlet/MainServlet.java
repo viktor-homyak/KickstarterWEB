@@ -58,7 +58,7 @@ public class MainServlet extends HttpServlet {
 
     public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId) throws ServletException, IOException {
         ProjectModel project = projectDAO.getProjectByID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
-        QuestionsModel questions = projectDAO.getQuestionByProjectID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
+        ArrayList<QuestionsModel>  questions = projectDAO.getQuestionByProjectID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
         req.setAttribute("categoryId", project.getParentId());
         req.setAttribute("categoryName", project.getParentName());
         req.setAttribute("project", project);

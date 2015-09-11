@@ -20,7 +20,7 @@ public interface ProjectDAO {
 
     void updateProjectCurrentSum(int categoryId, int projectId, int ammount);
 
-    QuestionsModel getQuestionByProjectID(int index, int categoryId);
+    ArrayList<QuestionsModel>  getQuestionByProjectID(int index, int categoryId);
 
     void updateQuestions(String question, String projectname);
 }
