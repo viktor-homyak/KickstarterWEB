@@ -22,9 +22,6 @@
 
     <p><b>Project history:</b><c:out value=" ${project.projectHistory}"/></p>
 
-
-    <%--<p><b>FAQ:</b><c:out value=" ${project.fAQ}"/></p>--%>
-
     <p><h4><c:out value="Video: "/><a href="${project.demoURL}">${project.demoURL}</a></h4></p>
 
     <p><b>FAQ</b></p>
