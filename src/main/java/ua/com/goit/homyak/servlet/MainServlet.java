@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Viktor on 18.08.2015.
@@ -32,8 +33,8 @@ public class MainServlet extends HttpServlet {
         super.init(config);
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
                 config.getServletContext());
-        categoryDAO.registerCategories();
-        projectDAO.registerProjects();
+//        categoryDAO.registerCategories();
+//        projectDAO.registerProjects();
     }
 
     @Override
@@ -69,7 +70,7 @@ public class MainServlet extends HttpServlet {
 
 
     private void getCategoryJsp(HttpServletRequest req, HttpServletResponse resp, int categoryID) throws ServletException, IOException {
-        ArrayList<ProjectModel> projectsOfCategory = categoryDAO.getCategoryByID(categoryID);
+        List<ProjectModel> projectsOfCategory = categoryDAO.getCategoryByID(categoryID);
         req.setAttribute("categoryId", projectsOfCategory.get(0).getParentId());
         req.setAttribute("categoryName", projectsOfCategory.get(0).getParentName());
         req.setAttribute("projects", projectsOfCategory);

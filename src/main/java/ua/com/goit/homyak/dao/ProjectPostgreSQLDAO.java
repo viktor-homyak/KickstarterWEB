@@ -1,5 +1,6 @@
 package ua.com.goit.homyak.dao;
 
+import org.hibernate.SessionFactory;
 import ua.com.goit.homyak.mvc.model.CategoryModel;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
 import ua.com.goit.homyak.mvc.model.QuestionsModel;
@@ -11,18 +12,15 @@ import java.util.Calendar;
 /**
  * Created by Viktor on 19.08.2015.
  */
-public class ProjectPostgreSQLDAO implements ProjectDAO {
+public class ProjectPostgreSQLDAO {
 
-    private PGConnectionPool pgConnectionPool;
 
-    public ProjectPostgreSQLDAO(PGConnectionPool pgConnectionPool) {
-        this.pgConnectionPool = pgConnectionPool;
-    }
+    private SessionFactory sessionFactory;
 
     public ProjectPostgreSQLDAO() {
     }
 
-    @Override
+
     public void registerProjects() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2018, 05, 9);
@@ -79,15 +77,15 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
 
     }
 
-    @Override
+
     public ProjectModel getProjectByID(int index, int categoryId) {
 
         String sql = "SELECT * FROM project WHERE parentid = " + categoryId + " AND id =" + index + "";
         try (Connection connection = PGConnectionPool.getConnection()) {
             try (PreparedStatement stm = connection.prepareStatement(sql)) {
                 ResultSet rs = stm.executeQuery();
-                 rs.next();
-                return  new ProjectModel(rs.getInt("id"), rs.getString("name"), rs.getString("shortdescription"),
+                rs.next();
+                return new ProjectModel(rs.getInt("id"), rs.getString("name"), rs.getString("shortdescription"),
                         rs.getInt("sumtoraise"), rs.getInt("currentsum"), rs.getDate("enddate"),
                         rs.getString("projecthistory"), rs.getString("faq"), rs.getString("demourl"),
                         rs.getString("parentname"), rs.getInt("parentid"));
@@ -99,9 +97,9 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
         return null;
     }
 
-    @Override
+
     public void updateProjectCurrentSum(int categoryId, int projectId, int ammount) {
-        String sql = "UPDATE project SET currentsum ="+ ammount+" WHERE parentid =" + categoryId + " AND id =" + projectId + "";
+        String sql = "UPDATE project SET currentsum =" + ammount + " WHERE parentid =" + categoryId + " AND id =" + projectId + "";
         try (Connection connection = PGConnectionPool.getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate(sql);
@@ -111,8 +109,7 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
         }
     }
 
-    @Override
-    //TODO get questions using left join to questions table
+
     public ArrayList<QuestionsModel> getQuestionByProjectID(int index, int categoryId) {
         String sql = "SELECT * FROM questions WHERE projectname = ( SELECT name FROM project WHERE parentid = " + categoryId + " AND id =" + index + ")";
         ArrayList<QuestionsModel> questions = new ArrayList<>();
@@ -120,7 +117,7 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
             try (PreparedStatement stm = connection.prepareStatement(sql)) {
                 ResultSet rs = stm.executeQuery();
                 while (rs.next()) {
-                    questions.add(new QuestionsModel(rs.getInt("id"),rs.getString("name"),rs.getString("projectname")));
+                    questions.add(new QuestionsModel(rs.getInt("id"), rs.getString("name"), rs.getString("projectname")));
                 }
             }
         } catch (SQLException e) {
@@ -129,9 +126,9 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
         return questions;
     }
 
-    @Override
+
     public void updateQuestions(String question, String projectname) {
-        String sql = "INSERT INTO questions (name, projectname) VALUES ('"+question+"','"+projectname+"')";
+        String sql = "INSERT INTO questions (name, projectname) VALUES ('" + question + "','" + projectname + "')";
 
         try (Connection connection = PGConnectionPool.getConnection()) {
             try (Statement statement = connection.createStatement()) {
@@ -142,12 +139,8 @@ public class ProjectPostgreSQLDAO implements ProjectDAO {
         }
     }
 
-
-    public void setPGConnectionPool(PGConnectionPool PGConnectionPool) {
-        pgConnectionPool = PGConnectionPool;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
-    public PGConnectionPool getPGConnectionPool() {
-        return pgConnectionPool;
-    }
 }
