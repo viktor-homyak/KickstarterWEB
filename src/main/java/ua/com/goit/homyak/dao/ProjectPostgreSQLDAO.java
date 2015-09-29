@@ -1,18 +1,26 @@
 package ua.com.goit.homyak.dao;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import ua.com.goit.homyak.mvc.model.CategoryModel;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
 import ua.com.goit.homyak.mvc.model.QuestionsModel;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Viktor on 19.08.2015.
  */
+@Repository
+@Transactional(readOnly = true)
 public class ProjectPostgreSQLDAO {
+
 
 
     private SessionFactory sessionFactory;
@@ -63,38 +71,31 @@ public class ProjectPostgreSQLDAO {
                 " 'In times when forrest pollution grows, sosiety needs not only better culture, but people who will '," +
                 "                'Is it legal?\\nno\\nWhat side effects?\\n85% brain cancer'," +
                 "                'https://www.youtube.com/watch?v=tk7RUVJmLk0','Ecology projects', 3)";
-        try (Connection connection = PGConnectionPool.getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                statement.executeUpdate(sql);
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection connection = PGConnectionPool.getConnection()) {
+//            try (Statement statement = connection.createStatement()) {
+//                statement.executeUpdate(sql);
+//
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
 
     public ProjectModel getProjectByID(int index, int categoryId) {
 
-        String sql = "SELECT * FROM project WHERE parentid = " + categoryId + " AND id =" + index + "";
-        try (Connection connection = PGConnectionPool.getConnection()) {
-            try (PreparedStatement stm = connection.prepareStatement(sql)) {
-                ResultSet rs = stm.executeQuery();
-                rs.next();
-                return new ProjectModel(rs.getInt("id"), rs.getString("name"), rs.getString("shortdescription"),
-                        rs.getInt("sumtoraise"), rs.getInt("currentsum"), rs.getDate("enddate"),
-                        rs.getString("projecthistory"), rs.getString("faq"), rs.getString("demourl"),
-                        rs.getString("parentname"), rs.getInt("parentid"));
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("FROM ProjectModel WHERE parentId = :categoryID and id = :index");
+        query.setParameter("categoryID", categoryId);
+        query.setParameter("index", index);
 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return (ProjectModel) query.uniqueResult();
+
+
     }
 
 
@@ -107,25 +108,27 @@ public class ProjectPostgreSQLDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+        Query query = session.createQuery("update Stock set stockName = :stockName" +
+                " where stockCode = :stockCode");
+        query.setParameter("stockName", "DIALOG1");
+        query.setParameter("stockCode", "7277");
+        int result = query.executeUpdate();
+
     }
 
 
-    public ArrayList<QuestionsModel> getQuestionByProjectID(int index, int categoryId) {
-        String sql = "SELECT * FROM questions WHERE projectname = ( SELECT name FROM project WHERE parentid = " + categoryId + " AND id =" + index + ")";
-        ArrayList<QuestionsModel> questions = new ArrayList<>();
-        try (Connection connection = PGConnectionPool.getConnection()) {
-            try (PreparedStatement stm = connection.prepareStatement(sql)) {
-                ResultSet rs = stm.executeQuery();
-                while (rs.next()) {
-                    questions.add(new QuestionsModel(rs.getInt("id"), rs.getString("name"), rs.getString("projectname")));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+    public List<QuestionsModel> getQuestionByProjectName(String projectName) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM QuestionsModel WHERE projectname = :projectName");
+        query.setParameter("projectName", projectName);
+
+        List<QuestionsModel> questions = query.list();
         return questions;
-    }
 
+    }
 
     public void updateQuestions(String question, String projectname) {
         String sql = "INSERT INTO questions (name, projectname) VALUES ('" + question + "','" + projectname + "')";
@@ -137,10 +140,17 @@ public class ProjectPostgreSQLDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        Query query = session.createQuery("insert into QuestionsModel(name, projectname) select stock_code, stock_name from backup_stock");
+        int result = query.executeUpdate();
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
 
 }

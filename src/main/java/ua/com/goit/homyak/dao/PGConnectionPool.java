@@ -1,14 +1,12 @@
 package ua.com.goit.homyak.dao;
 
-import org.apache.tomcat.jdbc.pool.ConnectionPool;
-import org.postgresql.ds.PGPoolingDataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-
-import org.apache.tomcat.jdbc.pool.DataSource;
 
 /**
  * Created by Viktor on 13.08.2015.

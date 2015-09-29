@@ -33,8 +33,8 @@ public class MainServlet extends HttpServlet {
         super.init(config);
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
                 config.getServletContext());
-//        categoryDAO.registerCategories();
-//        projectDAO.registerProjects();
+//        categoryDAO.getCategories();
+//        projectDAO.getSessionFactory();
     }
 
     @Override
@@ -59,7 +59,8 @@ public class MainServlet extends HttpServlet {
 
     public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId) throws ServletException, IOException {
         ProjectModel project = projectDAO.getProjectByID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
-        ArrayList<QuestionsModel>  questions = projectDAO.getQuestionByProjectID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
+        //ArrayList<QuestionsModel>  questions = projectDAO.getQuestionByProjectID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
+        List<QuestionsModel>  questions = projectDAO.getQuestionByProjectName(project.getName());
         req.setAttribute("categoryId", project.getParentId());
         req.setAttribute("categoryName", project.getParentName());
         req.setAttribute("project", project);
@@ -81,7 +82,7 @@ public class MainServlet extends HttpServlet {
     private void getMainJsp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String quote = new QuoteGenerator().getQuote();
         req.setAttribute("quote", quote);
-        req.setAttribute("category", categoryDAO.getCategories());
+        req.setAttribute("categories", categoryDAO.getCategories());
         req.getRequestDispatcher("main.jsp").forward(req, resp);
     }
 

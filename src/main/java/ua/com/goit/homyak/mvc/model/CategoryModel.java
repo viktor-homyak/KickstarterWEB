@@ -9,16 +9,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "categories")
 public class CategoryModel {
-
+    @Column(name = "name")
     private String name;
+
     @Id
     @Column(name = "id")
     @GeneratedValue
-    private int index;
+    private int id;
+    public  CategoryModel(){}
 
-    public CategoryModel(String name, int index) {
+    public CategoryModel(String name, int id) {
         this.name = name;
-        this.index = index;
+        this.id = id;
     }
 
     public String getName() {
@@ -26,7 +28,15 @@ public class CategoryModel {
     }
 
     public int getIndex() {
-        return index;
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

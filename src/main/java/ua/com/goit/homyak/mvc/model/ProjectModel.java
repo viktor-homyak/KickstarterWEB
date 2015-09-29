@@ -4,8 +4,10 @@ package ua.com.goit.homyak.mvc.model;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
-
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 /**
  * Created by Viktor on 14.07.2015.
  */
@@ -27,19 +29,23 @@ public class ProjectModel {
     private Date endDate;
     @Column(name = "projecthistory")
     private String projectHistory;
-    @Column(name = "faq")
+   // @Column(name = "faq")
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+   @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.REMOVE })
     private String fAQ;
     @Column(name = "demourl")
     private String demoURL;
-    @ManyToOne()
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "parentname")
     @Column(name = "parentname")
     private String parentName;
-    @Column(name = "parentId")
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "parentid")
+    @Column(name = "parentid")
     private int parentId;
-
+public ProjectModel(){}
     public ProjectModel(int id, String name, String shortDescription, int sumToRaise, int currentSum, Date endDate,
-                        String projectHistory, String fAQ, String demoURL, String parentName, int parentId) {
+                        String projectHistory, String demoURL, String parentName, int parentId) {
         this.id = id;
         this.name = name;
         this.shortDescription = shortDescription;
@@ -47,7 +53,7 @@ public class ProjectModel {
         this.currentSum = currentSum;
         this.endDate = endDate;
         this.projectHistory = projectHistory;
-        this.fAQ = fAQ;
+        this.fAQ = new ArrayList<>();
         this.demoURL = demoURL;
         this.parentName = parentName;
         this.parentId = parentId;

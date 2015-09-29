@@ -2,12 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/cache"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd
-	   					   http://www.springframework.org/schema/context
-	   					   http://www.springframework.org/schema/context/spring-context.xsd
-	   					   ">
+	   					   http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 
@@ -28,7 +30,7 @@
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" value="ua.com.goit.homyak.mvc.model"/>
-        <property name="namingStrategy" ref="namingStrategy"/>
+        <!--<property name="namingStrategy" ref="namingStrategy"/>-->
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${db.hibernate.dialect}</prop>
@@ -38,10 +40,14 @@
             </props>
         </property>
     </bean>
+    <!--<bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy"/>-->
 
-    <bean id="pGConnectionPool" class="ua.com.goit.homyak.dao.PGConnectionPool" >
-        <property name="dataSource" ref="dataSource"/>
+
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <tx:annotation-driven/>
 
     <bean id="quoteGenerator" class="ua.com.goit.homyak.dao.QuoteGenerator"/>
 
@@ -60,12 +66,8 @@
     </bean>
 
 
-    <bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy"/>
 
-    <tx:annotation-driven />
 
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+
 
 </beans>
