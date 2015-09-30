@@ -7,10 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
 import ua.com.goit.homyak.mvc.model.CategoryModel;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
-
 import org.hibernate.SessionFactory;
 /**
  * Created by Viktor on 01.08.2015.
@@ -24,30 +21,14 @@ public class CategoryPostgreSQLDAO  {
     public CategoryPostgreSQLDAO() {
     }
 
-    @SuppressWarnings("unchecked")
     public List<CategoryModel> getCategories() {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         return session.createQuery("from CategoryModel").list();
 
     }
 
 
     public List<ProjectModel> getCategoryByID(int categoryID) {
-//        String sql = "SELECT * FROM project WHERE parentid = "+categoryID+"";
-//        ArrayList<ProjectModel> category = new ArrayList<>();
-//        try (Connection connection = PGConnectionPool.getConnection()) {
-//            try (PreparedStatement stm = connection.prepareStatement(sql)) {
-//                ResultSet rs = stm.executeQuery();
-//                while (rs.next()) {
-//                        category.add(new ProjectModel(rs.getInt("id"),rs.getString("name"), rs.getString("shortdescription"),
-//                                rs.getInt("sumtoraise"), rs.getInt("currentsum"), rs.getDate("enddate"),
-//                                rs.getString("projecthistory"), rs.getString("faq"), rs.getString("demourl"),
-//                                rs.getString("parentname"), rs.getInt("parentid")));
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
 
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("FROM ProjectModel WHERE parentid = :categoryID");

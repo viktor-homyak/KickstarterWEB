@@ -110,18 +110,18 @@ public class ProjectPostgreSQLDAO {
         }
 
 
-        Query query = session.createQuery("update Stock set stockName = :stockName" +
-                " where stockCode = :stockCode");
-        query.setParameter("stockName", "DIALOG1");
-        query.setParameter("stockCode", "7277");
-        int result = query.executeUpdate();
+//        Query query = session.createQuery("update Stock set stockName = :stockName" +
+//                " where stockCode = :stockCode");
+//        query.setParameter("stockName", "DIALOG1");
+//        query.setParameter("stockCode", "7277");
+//        int result = query.executeUpdate();
 
     }
 
 
 
     public List<QuestionsModel> getQuestionByProjectName(String projectName) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         Query query = session.createQuery("FROM QuestionsModel WHERE projectname = :projectName");
         query.setParameter("projectName", projectName);
 
@@ -129,21 +129,25 @@ public class ProjectPostgreSQLDAO {
         return questions;
 
     }
+    public ProjectModel getProjectByName(String projectName){
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("FROM ProjectModel WHERE name = :projectName");
+        query.setParameter("projectName", projectName);
+        return (ProjectModel) query.uniqueResult();
+    }
 
     public void updateQuestions(String question, String projectname) {
-        String sql = "INSERT INTO questions (name, projectname) VALUES ('" + question + "','" + projectname + "')";
+        Session session = sessionFactory.openSession();
+       // ProjectModel project = getProjectByName(projectname);
+        QuestionsModel faq = new QuestionsModel();
+        faq.setName(question);
+        faq.setProjectname(projectname);
+        session.save(faq);
+//        project.addFAQ(faq);
+       // sessionFactory.getCurrentSession().merge(project);
 
-        try (Connection connection = PGConnectionPool.getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                statement.executeUpdate(sql);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        Query query = session.createQuery("insert into QuestionsModel(name, projectname) select stock_code, stock_name from backup_stock");
-        int result = query.executeUpdate();
     }
+
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

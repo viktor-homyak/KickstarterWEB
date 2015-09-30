@@ -12,6 +12,7 @@ public class CategoryModel {
     @Column(name = "name")
     private String name;
 
+
     @Id
     @Column(name = "id")
     @GeneratedValue
@@ -26,11 +27,9 @@ public class CategoryModel {
     public String getName() {
         return name;
     }
-
-    public int getIndex() {
+    public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }

@@ -6,6 +6,8 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 /**
@@ -30,17 +32,13 @@ public class ProjectModel {
     @Column(name = "projecthistory")
     private String projectHistory;
    // @Column(name = "faq")
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-   @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.REMOVE })
-    private String fAQ;
+   @OneToMany(fetch = FetchType.LAZY,mappedBy = "project")
+   @Cascade(CascadeType.ALL)
+   private List<QuestionsModel> fAQ;
     @Column(name = "demourl")
     private String demoURL;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "parentname")
     @Column(name = "parentname")
     private String parentName;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "parentid")
     @Column(name = "parentid")
     private int parentId;
 public ProjectModel(){}
@@ -53,7 +51,7 @@ public ProjectModel(){}
         this.currentSum = currentSum;
         this.endDate = endDate;
         this.projectHistory = projectHistory;
-        this.fAQ = new ArrayList<>();
+       this.fAQ = new ArrayList<>();
         this.demoURL = demoURL;
         this.parentName = parentName;
         this.parentId = parentId;
@@ -79,7 +77,12 @@ public ProjectModel(){}
         return projectHistory;
     }
 
-    public String getfAQ() {
+
+    public void addFAQ(QuestionsModel faq) {
+        fAQ.add(faq);
+    }
+
+    public List<QuestionsModel> getfAQ() {
         return fAQ;
     }
 

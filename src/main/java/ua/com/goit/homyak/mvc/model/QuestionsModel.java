@@ -11,9 +11,9 @@ import javax.persistence.*;
 @Table(name ="questions")
 public class QuestionsModel {
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "projectname")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ProjectModel project;
+    @Column(name = "projectname")
     private  String projectname;
 
     private String name;
@@ -28,6 +28,7 @@ public class QuestionsModel {
         this.name = name;
         this.index = index;
         this.projectname = projectname;
+
     }
 
     public String getName() {
@@ -48,5 +49,12 @@ public class QuestionsModel {
 
     public void setProjectname(String projectname) {
         this.projectname = projectname;
+    }
+    public ProjectModel getProjectModel() {
+        return project;
+    }
+
+    public void setProjectModel(ProjectModel projectModel) {
+        this.project = projectModel;
     }
 }
