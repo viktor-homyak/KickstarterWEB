@@ -1,39 +1,45 @@
 package ua.com.goit.homyak.dao;
 
 
-import org.hibernate.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ua.com.goit.homyak.mvc.model.ProjectModel;
 import ua.com.goit.homyak.mvc.model.CategoryModel;
+import ua.com.goit.homyak.mvc.model.ProjectModel;
 
 import java.util.List;
-import org.hibernate.SessionFactory;
+
 /**
  * Created by Viktor on 01.08.2015.
  */
 
 @Repository
-@Transactional(readOnly = true)
-public class CategoryPostgreSQLDAO  {
+public class CategoryPostgreSQLDAO {
     private SessionFactory sessionFactory;
 
     public CategoryPostgreSQLDAO() {
     }
 
+    @Transactional(readOnly = true)
     public List<CategoryModel> getCategories() {
         Session session = sessionFactory.openSession();
-        return session.createQuery("from CategoryModel").list();
+        List<CategoryModel> categories =     session.createQuery("from CategoryModel").list();
+        session.close();
+        return categories;
 
     }
 
-
+    @Transactional(readOnly = true)
     public List<ProjectModel> getCategoryByID(int categoryID) {
 
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery("FROM ProjectModel WHERE parentid = :categoryID");
-        query.setParameter("categoryID",categoryID);
+        Query query = session.createQuery("FROM ProjectModel WHERE parentId = :categoryID");
+        query.setParameter("categoryID", categoryID);
         List<ProjectModel> category = query.list();
+        session.close();
         return category;
     }
 
@@ -64,12 +70,12 @@ public class CategoryPostgreSQLDAO  {
         session.close();
 
 
-
     }
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

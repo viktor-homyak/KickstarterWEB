@@ -2,7 +2,6 @@ package ua.com.goit.homyak.mvc.model;
 
 
 import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,12 +9,13 @@ import java.util.List;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
 /**
  * Created by Viktor on 14.07.2015.
  */
 
 @Entity
-@Table(name ="project")
+@Table(name = "project")
 public class ProjectModel {
 
     private int id;
@@ -26,22 +26,27 @@ public class ProjectModel {
     @Column(name = "sumtoraise")
     private int sumToRaise;
     @Column(name = "currentsum")
+    @Cascade(CascadeType.ALL)
     private int currentSum;
     @Column(name = "enddate")
     private Date endDate;
     @Column(name = "projecthistory")
     private String projectHistory;
-   // @Column(name = "faq")
-   @OneToMany(fetch = FetchType.LAZY,mappedBy = "project")
-   @Cascade(CascadeType.ALL)
-   private List<QuestionsModel> fAQ;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "projectname")
+    @Cascade(CascadeType.ALL)
+    private List<QuestionsModel> fAQ;
     @Column(name = "demourl")
     private String demoURL;
     @Column(name = "parentname")
     private String parentName;
     @Column(name = "parentid")
     private int parentId;
-public ProjectModel(){}
+
+    public ProjectModel() {
+    }
+
     public ProjectModel(int id, String name, String shortDescription, int sumToRaise, int currentSum, Date endDate,
                         String projectHistory, String demoURL, String parentName, int parentId) {
         this.id = id;
@@ -51,7 +56,7 @@ public ProjectModel(){}
         this.currentSum = currentSum;
         this.endDate = endDate;
         this.projectHistory = projectHistory;
-       this.fAQ = new ArrayList<>();
+        this.fAQ = new ArrayList<>();
         this.demoURL = demoURL;
         this.parentName = parentName;
         this.parentId = parentId;
@@ -82,6 +87,7 @@ public ProjectModel(){}
         fAQ.add(faq);
     }
 
+
     public List<QuestionsModel> getfAQ() {
         return fAQ;
     }
@@ -107,5 +113,8 @@ public ProjectModel(){}
     }
 
 
+    public void increaseCurrentSum(int ammount) {
+        currentSum = currentSum + ammount;
+    }
 }
 
