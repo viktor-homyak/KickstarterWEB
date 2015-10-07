@@ -3,7 +3,7 @@ package ua.com.goit.homyak.dao;
 import org.springframework.stereotype.Repository;
 
 import java.util.Random;
-@Repository
+
 public class QuoteGenerator {
 
     public String getQuote() {

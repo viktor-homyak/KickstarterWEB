@@ -59,13 +59,13 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="mainServlet" class="ua.com.goit.homyak.servlet.MainServlet">
-        <property name="quote" ref="quoteGenerator"/>
-        <property name="categoryDAO" ref="categoryDAOPS"/>
-        <property name="projectDAO" ref="projectDAOPS"/>
-    </bean>
+    <!--<bean id="mainServlet" class="ua.com.goit.homyak.servlet.MainServlet">-->
+        <!--<property name="quote" ref="quoteGenerator"/>-->
+        <!--<property name="categoryDAO" ref="categoryDAOPS"/>-->
+        <!--<property name="projectDAO" ref="projectDAOPS"/>-->
+    <!--</bean>-->
 
-
+    <!--<context:component-scan base-package="ua.com.goit.homyak" />-->
 
 
 

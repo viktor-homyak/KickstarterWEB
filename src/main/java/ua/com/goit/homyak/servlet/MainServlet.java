@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +58,6 @@ public class MainServlet extends HttpServlet {
 
     public void getProjectJsp(HttpServletRequest req, HttpServletResponse resp, int categoryId, int projectId) throws ServletException, IOException {
         ProjectModel project = projectDAO.getProjectByID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
-        //ArrayList<QuestionsModel>  questions = projectDAO.getQuestionByProjectID(projectId, categoryDAO.getCategoryByID(categoryId).get(0).getParentId());
         List<QuestionsModel>  questions = projectDAO.getQuestionByProjectName(project.getName());
         req.setAttribute("categoryId", project.getParentId());
         req.setAttribute("categoryName", project.getParentName());

@@ -11,12 +11,7 @@ import javax.persistence.*;
 @Table(name = "questions")
 public class QuestionsModel {
 
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "project")
-//  // @Transient
-//    private ProjectModel project;
 
-//    @Column(name = "projectname")
     private String projectname;
 
     private String name;
@@ -56,11 +51,4 @@ public class QuestionsModel {
         this.projectname = projectname;
     }
 
-//    public ProjectModel getProjectModel() {
-//        return project;
-//    }
-//
-//    public void setProjectModel(ProjectModel projectModel) {
-//        this.project = projectModel;
-//    }
 }

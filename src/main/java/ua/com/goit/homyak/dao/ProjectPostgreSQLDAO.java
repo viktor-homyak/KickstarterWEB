@@ -5,30 +5,22 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.goit.homyak.mvc.model.ProjectModel;
 import ua.com.goit.homyak.mvc.model.QuestionsModel;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by Viktor on 19.08.2015.
  */
-@Repository
 
 public class ProjectPostgreSQLDAO {
 
-
     private SessionFactory sessionFactory;
 
-    public ProjectPostgreSQLDAO() {
-    }
-
+    public ProjectPostgreSQLDAO() {}
 
     public void registerProjects() {
         Calendar calendar = Calendar.getInstance();
@@ -72,31 +64,19 @@ public class ProjectPostgreSQLDAO {
                 " 'In times when forrest pollution grows, sosiety needs not only better culture, but people who will '," +
                 "                'Is it legal?\\nno\\nWhat side effects?\\n85% brain cancer'," +
                 "                'https://www.youtube.com/watch?v=tk7RUVJmLk0','Ecology projects', 3)";
-//        try (Connection connection = PGConnectionPool.getConnection()) {
-//            try (Statement statement = connection.createStatement()) {
-//                statement.executeUpdate(sql);
-//
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+
 
     }
 
     @Transactional(readOnly = true)
     public ProjectModel getProjectByID(int index, int categoryId) {
 
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM ProjectModel WHERE parentId = :categoryID and id = :index");
         query.setParameter("categoryID", categoryId);
         query.setParameter("index", index);
         ProjectModel projectModel = (ProjectModel) query.uniqueResult();
-        session.close();
         return projectModel ;
-
 
     }
 
@@ -109,43 +89,34 @@ public class ProjectPostgreSQLDAO {
             projectModel.increaseCurrentSum(ammount);
             session.update(projectModel);
             session.merge(projectModel);
-           // session.close();
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-
-
-//        Query query = session.createQuery("update Stock set stockName = :stockName" +
-//                " where stockCode = :stockCode");
-//        query.setParameter("stockName", "DIALOG1");
-//        query.setParameter("stockCode", "7277");
-//        int result = query.executeUpdate();
 
     }
 
 
     @Transactional(readOnly = true)
     public List<QuestionsModel> getQuestionByProjectName(String projectName) {
-        Session session = sessionFactory.openSession();
+
+        Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM QuestionsModel WHERE projectname = :projectName");
         query.setParameter("projectName", projectName);
-
         List<QuestionsModel> questions = query.list();
-        session.close();
         return questions;
 
     }
 
     @Transactional(readOnly = true)
     public ProjectModel getProjectByName(String projectName) {
+
         ProjectModel projectModel = null;
+
         try {
-            Session session = sessionFactory.openSession();
+            Session session = sessionFactory.getCurrentSession();
             Query query = session.createQuery("FROM ProjectModel WHERE name = :projectName");
             query.setParameter("projectName", projectName);
-
             projectModel = (ProjectModel) query.uniqueResult();
-            session.close();
         } catch (HibernateException e) {
             e.printStackTrace();
         }
@@ -155,21 +126,19 @@ public class ProjectPostgreSQLDAO {
 
     @Transactional(readOnly = false)
     public void updateQuestions(String question, String projectname) {
+
         try {
             Session session = sessionFactory.getCurrentSession();
             ProjectModel project = getProjectByName(projectname);
             QuestionsModel faq = new QuestionsModel();
             faq.setName(question);
             faq.setProjectname(projectname);
-           // faq.setProjectModel(project);
-            session.save(faq);
             project.addFAQ(faq);
-
             session.merge(project);
-
         } catch (HibernateException e) {
             e.printStackTrace();
         }
+
     }
 
 
