@@ -1,11 +1,13 @@
 package ua.com.goit.homyak.dao;
 
-import org.springframework.stereotype.Repository;
+import org.hibernate.SessionFactory;
 
 import java.util.Random;
-@Repository
+
 public class QuoteGenerator {
 
+
+  //  private SessionFactory sessionFactory;
     public String getQuote() {
         String[] ArrayOfQuotes = {"By giving, you receive!", "Maby you helping to start something BIG!",
                 "If you liked an idea, the best you can help - send some money!"};
@@ -14,4 +16,8 @@ public class QuoteGenerator {
         return ArrayOfQuotes[index];
 
     }
+
+//    public void setSessionFactory(SessionFactory sessionFactory) {
+//        this.sessionFactory = sessionFactory;
+//    }
 }
