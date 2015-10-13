@@ -30,7 +30,6 @@
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" value="ua.com.goit.homyak.mvc.model"/>
-        <!--<property name="namingStrategy" ref="namingStrategy"/>-->
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${db.hibernate.dialect}</prop>
@@ -40,18 +39,8 @@
             </props>
         </property>
     </bean>
-    <!--<bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy"/>-->
 
-
-
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    <tx:annotation-driven/>
-
-    <bean id="quoteGenerator" class="ua.com.goit.homyak.dao.QuoteGenerator">
-        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
-    </bean>
+    <bean id="quoteGenerator" class="ua.com.goit.homyak.dao.QuoteGenerator"/>
 
     <bean id="categoryDAOPS" class="ua.com.goit.homyak.dao.CategoryPostgreSQLDAO">
         <property name="sessionFactory" ref="sessionFactory"/>
@@ -61,15 +50,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <!--<bean id="mainServlet" class="ua.com.goit.homyak.servlet.MainServlet">-->
-        <!--<property name="quote" ref="quoteGenerator"/>-->
-        <!--<property name="categoryDAO" ref="categoryDAOPS"/>-->
-        <!--<property name="projectDAO" ref="projectDAOPS"/>-->
-    <!--</bean>-->
-
-    <!--<context:component-scan base-package="ua.com.goit.homyak" />-->
-
-
-
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <tx:annotation-driven/>
 
 </beans>

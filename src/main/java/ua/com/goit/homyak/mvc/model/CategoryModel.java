@@ -9,9 +9,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "categories")
 public class CategoryModel {
+
     @Column(name = "name")
     private String name;
-
     @Id
     @Column(name = "id")
     @GeneratedValue

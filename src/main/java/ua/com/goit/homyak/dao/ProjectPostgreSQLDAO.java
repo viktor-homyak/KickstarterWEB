@@ -21,7 +21,7 @@ public class ProjectPostgreSQLDAO {
     private SessionFactory sessionFactory;
 
     public ProjectPostgreSQLDAO() {}
-
+//TODO move to script
     public void registerProjects() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2018, 05, 9);
@@ -67,7 +67,7 @@ public class ProjectPostgreSQLDAO {
 
 
     }
-
+//TODO inject services
     @Transactional(readOnly = true)
     public ProjectModel getProjectByID(int index, int categoryId) {
 

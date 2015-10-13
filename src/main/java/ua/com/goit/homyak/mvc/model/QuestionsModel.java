@@ -11,11 +11,8 @@ import javax.persistence.*;
 @Table(name = "questions")
 public class QuestionsModel {
 
-
     private String projectname;
-
     private String name;
-
     @Id
     @Column(name = "id")
     @GeneratedValue

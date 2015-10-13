@@ -31,7 +31,6 @@ public class ProjectModel {
     private Date endDate;
     @Column(name = "projecthistory")
     private String projectHistory;
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "projectname")
     @Cascade(CascadeType.ALL)
@@ -81,11 +80,9 @@ public class ProjectModel {
         return projectHistory;
     }
 
-
     public void addFAQ(QuestionsModel faq) {
         fAQ.add(faq);
     }
-
 
     public List<QuestionsModel> getfAQ() {
         return fAQ;
@@ -110,7 +107,6 @@ public class ProjectModel {
     public int getId() {
         return id;
     }
-
 
     public void increaseCurrentSum(int ammount) {
         currentSum = currentSum + ammount;

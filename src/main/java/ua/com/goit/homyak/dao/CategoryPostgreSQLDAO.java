@@ -25,6 +25,7 @@ public class CategoryPostgreSQLDAO {
 
     @Transactional(readOnly = true)
     public List<CategoryModel> getCategories() {
+
         Session session = sessionFactory.getCurrentSession();
         List<CategoryModel> categories = session.createQuery("from CategoryModel").list();
         return categories;
@@ -43,6 +44,7 @@ public class CategoryPostgreSQLDAO {
 
     @Transactional
     public void registerCategories() {
+
         String sql = "INSERT INTO categories (id, name)" +
                 "VALUES " +
                 "(1,'Sport')," +

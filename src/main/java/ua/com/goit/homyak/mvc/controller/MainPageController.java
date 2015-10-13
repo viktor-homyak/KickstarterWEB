@@ -9,7 +9,6 @@ import ua.com.goit.homyak.dao.CategoryPostgreSQLDAO;
 import ua.com.goit.homyak.dao.QuoteGenerator;
 
 
-
 /**
  * Created by Viktor on 07.10.2015.
  */
@@ -17,8 +16,9 @@ import ua.com.goit.homyak.dao.QuoteGenerator;
 public class MainPageController {
     @Autowired
     private QuoteGenerator quote;
-   @Autowired
-   private CategoryPostgreSQLDAO categoryDAO;
+    @Autowired
+    private CategoryPostgreSQLDAO categoryDAO;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     private String getMainJsp(ModelMap modelMap) {
         modelMap.addAttribute("quote", quote.getQuote());
@@ -27,10 +27,10 @@ public class MainPageController {
     }
 
 
-
     public void setQuote(QuoteGenerator quote) {
         this.quote = quote;
     }
+
     public void setCategoryDAO(CategoryPostgreSQLDAO categoryDAO) {
         this.categoryDAO = categoryDAO;
     }

@@ -40,20 +40,21 @@ public class ProjectController {
         return "project";
     }
 
-    @RequestMapping(value="categoryId/{categoryID}/projectId/{projectID}/addmoney", method=RequestMethod.POST)
+    @RequestMapping(value = "categoryId/{categoryID}/projectId/{projectID}/addmoney", method = RequestMethod.POST)
     public String updateCurrentSum(@PathVariable("projectID") int projectID, @PathVariable("categoryID") int categoryID,
-                                   @RequestParam int addedAmount ) {
+                                   @RequestParam int addedAmount) {
 
         projectDAO.updateProjectCurrentSum(categoryID, projectID, addedAmount);
 
-        return "redirect:/categoryId/"+categoryID+"/projectId/"+projectID+"/";
+        return "redirect:/categoryId/" + categoryID + "/projectId/" + projectID + "/";
     }
 
-    @RequestMapping(value="categoryId/{categoryID}/projectId/{projectID}/faq", method=RequestMethod.POST)
+    @RequestMapping(value = "categoryId/{categoryID}/projectId/{projectID}/faq", method = RequestMethod.POST)
     public String addQuestion(@PathVariable("projectID") int projectID, @PathVariable("categoryID") int categoryID,
-                              @RequestParam String addedQuestion, @RequestParam String projectname ) {
-        projectDAO.updateQuestions(addedQuestion,projectname);
-        return "redirect:/categoryId/"+categoryID+"/projectId/"+projectID+"/";
+                              @RequestParam String addedQuestion, @RequestParam String projectname) {
+        projectDAO.updateQuestions(addedQuestion, projectname);
+
+        return "redirect:/categoryId/" + categoryID + "/projectId/" + projectID + "/";
     }
 
     public void setCategoryDAO(CategoryPostgreSQLDAO categoryDAO) {
