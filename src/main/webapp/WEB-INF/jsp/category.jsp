@@ -18,7 +18,7 @@
 <br>
 <ol>
     <c:forEach var="project" items="${projects}">
-        <li><a href="categoryId=${categoryId}/projectId=${project.id}"><c:out value="${project.name}"/></a>${project.shortDescription}</li>
+        <li><a href="projectId/${project.id}/"><c:out value="${project.name}- "/></a>${project.shortDescription}</li>
     </c:forEach>
 </ol>
 </body>

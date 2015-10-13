@@ -49,7 +49,9 @@
     </bean>
     <tx:annotation-driven/>
 
-    <bean id="quoteGenerator" class="ua.com.goit.homyak.dao.QuoteGenerator"/>
+    <bean id="quoteGenerator" class="ua.com.goit.homyak.dao.QuoteGenerator">
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    </bean>
 
     <bean id="categoryDAOPS" class="ua.com.goit.homyak.dao.CategoryPostgreSQLDAO">
         <property name="sessionFactory" ref="sessionFactory"/>

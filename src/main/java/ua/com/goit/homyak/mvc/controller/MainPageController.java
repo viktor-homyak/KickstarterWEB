@@ -21,7 +21,7 @@ public class MainPageController {
    private CategoryPostgreSQLDAO categoryDAO;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     private String getMainJsp(ModelMap modelMap) {
-        modelMap.addAttribute("quote", quote);
+        modelMap.addAttribute("quote", quote.getQuote());
         modelMap.addAttribute("categories", categoryDAO.getCategories());
         return "main";
     }
